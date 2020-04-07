@@ -17,7 +17,7 @@ class App {
   private readonly iotaPivot = new THREE.Object3D();
 
   private pointLight = new THREE.PointLight(0xaaaaaa, 1, 0);
-  private ambientLight = new THREE.AmbientLight(0x444444);
+  private ambientLight = new THREE.AmbientLight(0xaaaaaa);
 
   constructor() {
     this.camera.position.set(0, 200, 200);

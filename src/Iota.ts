@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { Object3D, Vector3 } from 'three';
+import { iotaPalette } from './colors';
 
 export default class Iota extends Object3D {
   geometry: THREE.SphereGeometry;
@@ -13,7 +14,7 @@ export default class Iota extends Object3D {
     this.mesh = new THREE.Mesh(this.geometry, this.material);
 
     const [x, y, z] = this.getPosition();
-    const color = this.getColor();
+    const color = this.getPaletteColor();
 
     this.mesh.position.set(x, y, z);
     this.material.color.set(color);
@@ -29,7 +30,11 @@ export default class Iota extends Object3D {
     return [x, y, z];
   }
 
-  getColor(): string {
+  getPaletteColor(): number {
+    return iotaPalette[Math.floor(Math.random() * iotaPalette.length)];
+  }
+
+  getRandomColor(): string {
     const h = Math.ceil(Math.random() * 360);
     const s = Math.ceil(Math.random() * 50) + 50;
     const l = Math.ceil(Math.random() * 50) + 50;
