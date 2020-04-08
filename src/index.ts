@@ -1,23 +1,21 @@
 import * as THREE from 'three';
-import Iota from './Iota';
+import IotaSystem from './IotaSystem';
 
 class App {
-  private readonly renderer = new THREE.WebGLRenderer({
+  renderer = new THREE.WebGLRenderer({
     antialias: true,
     canvas: <HTMLCanvasElement>document.getElementById('mainCanvas')
   });
-  private readonly scene = new THREE.Scene();
-  private readonly camera = new THREE.PerspectiveCamera(
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(
     45,
     innerWidth / innerHeight,
     0.1,
     10000
   );
-
-  private readonly iotaPivot = new THREE.Object3D();
-
-  private pointLight = new THREE.PointLight(0xaaaaaa, 1, 0);
-  private ambientLight = new THREE.AmbientLight(0xaaaaaa);
+  pointLight = new THREE.PointLight(0xaaaaaa, 1, 0);
+  ambientLight = new THREE.AmbientLight(0xaaaaaa);
+  iotaSystem = new IotaSystem(this.scene, { count: 1000 });
 
   constructor() {
     this.camera.position.set(0, 200, 200);
@@ -26,12 +24,6 @@ class App {
     this.scene.add(this.camera);
     this.scene.add(this.pointLight);
     this.scene.add(this.ambientLight);
-    this.scene.add(this.iotaPivot);
-
-    for (let i = 0; i < 1000; i++) {
-      const iota = new Iota();
-      this.iotaPivot.add(iota.mesh);
-    }
 
     this.renderer.setSize(innerWidth, innerHeight);
     this.renderer.setClearColor(new THREE.Color('rgb(0,0,0)'));
@@ -51,7 +43,7 @@ class App {
       this.render();
     });
     this.adjustCanvasSize();
-    this.iotaPivot.rotateY(Math.PI * 0.0001);
+    this.iotaSystem.pivot.rotateY(Math.PI * 0.0001);
   }
 }
 
