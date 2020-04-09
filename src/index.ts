@@ -12,7 +12,7 @@ class App {
   ambientLight = new THREE.AmbientLight(0xaaaaaa);
   worldSize = 1000;
   iotaSystem = new IotaSystem(this.scene, {
-    count: 1000,
+    count: 2000,
     worldSize: this.worldSize
   });
 

@@ -51,10 +51,10 @@ export default class Iota extends THREE.Object3D {
   }
 
   getVelocity(): number[] {
-    return [
-      Math.random() * -1 + 1,
-      Math.random() * -1 + 1,
-      Math.random() * -1 + 1
-    ];
+    return [rand(-1, 1), rand(-1, 1), rand(-1, 1)];
   }
+}
+
+function rand(min: number, max: number): number {
+  return Math.random() * (max - min) + min;
 }

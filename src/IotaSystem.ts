@@ -31,15 +31,11 @@ export default class IotaSystem extends Object3D {
   }
 
   animate() {
-    // this.pivot.rotateY(Math.PI * 0.0001);
+    this.pivot.rotateY(Math.PI * 0.0001); // slowly rotate entire iota system
     this.iotas.forEach((iota, i) => {
       let x = iota.mesh.position.x + iota.velocity[0];
       let y = iota.mesh.position.y + iota.velocity[1];
       let z = iota.mesh.position.z + iota.velocity[2];
-
-      if (i === 1) {
-        console.log(z);
-      }
 
       x = this.constrain(x);
       y = this.constrain(y);
