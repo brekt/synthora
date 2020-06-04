@@ -48,7 +48,7 @@ export default class IotaSystem extends Object3D {
   }
 
   handleCollision(iotas: Iota[]) {
-    
+    // influence each other
   }
 
   constrain(num: number): number {
