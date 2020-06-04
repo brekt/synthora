@@ -63,6 +63,7 @@ export default class IotaSystem extends Object3D {
     setInterval(() => {
       const colliders = [];
 
+      // TODO: also try memoizing so no double check if sticking with nested for loop
       // TODO: use a bounding box or sphere to detect close iotas (thanks Cray)
 
       for (let i = 0; i < this.iotas.length - 1; i++) {
