@@ -1,6 +1,11 @@
 import * as THREE from 'three';
 import { Object3D, Vector3 } from 'three';
-import Iota from './Iota';
+import Iota from './Iota.ts';
+import {
+  kick,
+  playSweep
+ } from './audio';
+ import drums from './components/Drums.ts';
 
 interface Options {
   count: number;
@@ -30,6 +35,8 @@ export default class IotaSystem extends Object3D {
     scene.add(this.pivot);
 
     this.detectCollision();
+
+    drums();
   }
 
   animate() {
@@ -48,7 +55,7 @@ export default class IotaSystem extends Object3D {
   }
 
   handleCollision(iotas: Iota[]) {
-    // influence each other
+    // kick.trigger(kick.ctx.currentTime);
   }
 
   constrain(num: number): number {
