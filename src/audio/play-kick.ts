@@ -12,7 +12,9 @@ class Kick {
         this.ctx = new AudioContext;
     }
 
-    trigger(now: number) {
+    trigger() {
+        const now = this.ctx.currentTime;
+
         this.osc = this.ctx.createOscillator();
         this.gain = this.ctx.createGain();
         this.osc.connect(this.gain);

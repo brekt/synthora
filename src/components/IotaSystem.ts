@@ -1,24 +1,17 @@
 import * as THREE from 'three';
 import { Object3D, Vector3 } from 'three';
-import Iota from './Iota.ts';
-import {
-  kick,
-  playSweep
- } from './audio';
- import drums from './components/Drums.ts';
-
-interface Options {
-  count: number;
-  worldSize: number;
-}
+import Iota from './Iota';
+import { IotaSystemOptions } from '../types';
+import Drums from './Drums';
 
 export default class IotaSystem extends Object3D {
+  drums: Drums;
   pivot: THREE.Object3D;
   iotas: Iota[] = [];
   count: number;
   worldSize: number;
 
-  constructor(scene: THREE.Scene, options: Options) {
+  constructor(scene: THREE.Scene, options: IotaSystemOptions) {
     super();
 
     this.count = options.count;
@@ -36,7 +29,7 @@ export default class IotaSystem extends Object3D {
 
     this.detectCollision();
 
-    // drums();
+    this.drums = new Drums()
   }
 
   animate() {
