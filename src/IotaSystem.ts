@@ -36,7 +36,7 @@ export default class IotaSystem extends Object3D {
 
     this.detectCollision();
 
-    drums();
+    // drums();
   }
 
   animate() {

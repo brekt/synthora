@@ -1,10 +1,11 @@
 import kick from '../audio/play-kick.ts';
 
+const BEAT_DURATION = 960; // a little faster than 60bpm. evenly divisided by 16
+
 function drums() {
-    
     setInterval(() => {
         kick.trigger(kick.ctx.currentTime);
-    }, 706); // about 85 bpmca
+    }, BEAT_DURATION); // a little faster than 60 bpm, allows for 
 }
 
 
