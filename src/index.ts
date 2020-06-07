@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import IotaSystem from './IotaSystem';
+import IotaSystem from './components/IotaSystem';
 
 class App {
   renderer = new THREE.WebGLRenderer({

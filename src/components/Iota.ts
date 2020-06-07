@@ -1,18 +1,19 @@
 import * as THREE from 'three';
-import { iotaPalette } from './colors';
-
-interface Options {
-  count: number;
-  worldSize: number;
-}
+import { iotaPalette } from '../colors';
+import {
+  IotaPrefs,
+  IotaSystemOptions
+} from '../types';
+import prefs from './prefs';
 
 export default class Iota extends THREE.Object3D {
   geometry: THREE.SphereBufferGeometry;
   material: THREE.MeshPhysicalMaterial;
   mesh: THREE.Mesh;
+  prefs: IotaPrefs;
   velocity: number[];
 
-  constructor({ worldSize }: Options) {
+  constructor({ worldSize }: IotaSystemOptions) {
     super();
 
     this.geometry = new THREE.SphereBufferGeometry(5, 32, 32);
@@ -28,6 +29,7 @@ export default class Iota extends THREE.Object3D {
     this.material.roughness = 0.4;
     this.material.metalness = 0.5;
     this.material.reflectivity = 0.2;
+    this.prefs = prefs.getInitialPrefs();
   }
 
   getStartPosition(worldSize: number): number[] {
