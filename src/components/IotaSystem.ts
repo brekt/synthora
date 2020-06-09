@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { Object3D, Vector3 } from 'three';
 import Iota from './Iota';
 import { IotaSystemOptions } from '../types';
-import kick from './Omegaphone/Kick';
+import transport from './Omegaphone/Scheduler';
 
 export default class IotaSystem extends Object3D {
   pivot: THREE.Object3D;
@@ -27,6 +27,8 @@ export default class IotaSystem extends Object3D {
     scene.add(this.pivot);
 
     this.detectCollision();
+
+    transport.start();
   }
 
   animate() {
@@ -45,7 +47,7 @@ export default class IotaSystem extends Object3D {
   }
 
   handleCollision(iotas: Iota[]) {
-    kick.trigger();
+    // snare.trigger();
   }
 
   constrain(num: number): number {

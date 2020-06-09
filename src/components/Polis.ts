@@ -3,7 +3,18 @@ import Iota from './Iota';
 class Polis {
 
     vote(iotas: Iota[]) {
+        // tally all iota preferences
+        iotas.forEach(iota => {
 
+        });
+
+        // find winner
+        // update elected prefs
+        // assign to window object
+
+        window.electedPrefs = {
+            kick: 'x...x...x...x...x...x...x...x...'
+        }
     }
 
 }

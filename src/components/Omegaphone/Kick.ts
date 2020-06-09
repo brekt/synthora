@@ -1,5 +1,4 @@
-import { MembraneSynth, OmniOscillator } from 'tone';
-import { Tone } from 'tone/build/esm/core/Tone';
+import { MembraneSynth } from 'tone';
 
 class Kick {
     kick: MembraneSynth;
