@@ -12,9 +12,22 @@
         box-sizing: border-box;
       }
 
+      body {
+        background-color: black;
+      }
+
       canvas {
         height: 100%;
         width: 100%;
+      }
+
+      #start-button {
+        position: absolute;
+        top: 5%;
+        left: 5%;
+        padding: 5px 10px;
+        border-radius: 5px;
+        background-color: powderblue
       }
     </style>
   </head>
@@ -22,5 +35,13 @@
   <body>
     <canvas id="mainCanvas"></canvas>
     <script src="bundle.js"></script>
+    <button id="start-button">Start</button>
+    <script>
+      const startButton = document.querySelector('#start-button');
+
+      startButton.addEventListener('click', function() {
+        this.hidden = true;
+      });
+    </script>
   </body>
 </html>
