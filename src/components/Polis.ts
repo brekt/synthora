@@ -13,8 +13,11 @@ class Polis {
         // assign to window object
 
         window.electedPrefs = {
-            kick: 'x...x...x...x...x...x...x...x...'
+            kick:  'x...x...x...x...x...x...x...x...',
+            snare: '....x.......x.......x.......x...',
+            hat:   '.x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.x'
         }
+        
     }
 
 }
