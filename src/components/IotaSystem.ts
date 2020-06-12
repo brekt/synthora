@@ -28,7 +28,7 @@ export default class IotaSystem extends Object3D {
 
     this.detectCollision();
 
-    transport.start();
+    // transport.start();
   }
 
   animate() {
