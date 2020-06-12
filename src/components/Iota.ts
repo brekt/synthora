@@ -7,7 +7,7 @@ import {
 import prefs from './prefs';
 
 export default class Iota extends THREE.Object3D {
-  geometry: THREE.SphereGeometry;
+  geometry: THREE.SphereBufferGeometry;
   // material: THREE.MeshPhysicalMaterial;
   material: THREE.MeshLambertMaterial;
   mesh: THREE.Mesh;
@@ -30,7 +30,7 @@ export default class Iota extends THREE.Object3D {
   return mesh
      */
 
-    this.geometry = new THREE.SphereGeometry(5, 32, 32);
+    this.geometry = new THREE.SphereBufferGeometry(5, 32, 32);
     // this.material = new THREE.MeshPhysicalMaterial({});
     this.material = new THREE.MeshLambertMaterial({
       color: '#277ec9',
@@ -52,8 +52,6 @@ export default class Iota extends THREE.Object3D {
     this.mesh.position.set(x, y, z);
     this.velocity = this.getVelocity();
     this.material.color.set(color);
-    // this.material.roughness = 0.4;
-    // this.material.metalness = 0.5;
     this.material.reflectivity = 0.2;
     this.prefs = prefs.getInitialPrefs();
   }
@@ -94,103 +92,67 @@ class GlowMesh {
 	outsideMesh: THREE.Mesh;
 
 	constructor(mesh: THREE.Mesh) {
-		var object3d	= new THREE.Object3D
+		this.object3d	= new THREE.Object3D
 
-		var geometry	= <THREE.Geometry>mesh.geometry.clone()
-		dilateGeometry(geometry, 0.01)
-		var material = createAtmosphereMaterial()
-		material.uniforms.glowColor.value	= new THREE.Color('cyan')
-		material.uniforms.coeficient.value = 1.1
-		material.uniforms.power.value	= 1.4
-		var insideMesh= new THREE.Mesh(geometry, material );
-		object3d.add(insideMesh);
+		const innerGeometry = new THREE.SphereBufferGeometry(6, 32, 32);
+		const innerMaterial = createAtmosphereMaterial()
+		innerMaterial.uniforms.glowColor.value	= new THREE.Color('cyan')
+		innerMaterial.uniforms.coeficient.value = 1.1
+		innerMaterial.uniforms.power.value	= 1.4
+		this.insideMesh = new THREE.Mesh(innerGeometry, innerMaterial );
+		this.object3d.add(this.insideMesh);
 	
-	
-		var geometry = <THREE.Geometry>mesh.geometry.clone()
-		dilateGeometry(geometry, 0.1)
-		var material = createAtmosphereMaterial()
-		material.uniforms.glowColor.value	= new THREE.Color('cyan')
-		material.uniforms.coeficient.value	= 0.1
-		material.uniforms.power.value	= 1.2
-		material.side	= THREE.BackSide
-		var outsideMesh	= new THREE.Mesh(geometry, material);
-		object3d.add(outsideMesh);
-	
-		// expose a few variable
-		this.object3d = object3d;
-		this.insideMesh = insideMesh;
-		this.outsideMesh = outsideMesh;
+		const outerGeometry = new THREE.SphereBufferGeometry(7, 32, 32);
+		const outerMaterial = createAtmosphereMaterial()
+		outerMaterial.uniforms.glowColor.value	= new THREE.Color('cyan')
+		outerMaterial.uniforms.coeficient.value	= 0.1
+		outerMaterial.uniforms.power.value	= 1.2
+		outerMaterial.side	= THREE.BackSide
+		this.outsideMesh = new THREE.Mesh(outerGeometry, outerMaterial);
+		this.object3d.add(this.outsideMesh);
 	}
 
 }
-
-/**
- * dilate a geometry inplace
- * @param  {THREE.Geometry} geometry geometry to dilate
- * @param  {Number} length   percent to dilate, use negative value to erode
- */
-function dilateGeometry(geometry: THREE.Geometry, length: number){
-	// gather vertexNormals from geometry.faces
-	var vertexNormals	= new Array(geometry.vertices.length);
-	geometry.faces.forEach(function(face){
-			vertexNormals[face.a]	= face.vertexNormals[0];
-			vertexNormals[face.b]	= face.vertexNormals[1];
-			vertexNormals[face.c]	= face.vertexNormals[2];
-  });
-  
-	// modify the vertices according to vertextNormal
-	geometry.vertices.forEach(function(vertex, idx){
-		var vertexNormal = vertexNormals[idx];
-		vertex.x	+= vertexNormal.x * length;
-		vertex.y	+= vertexNormal.y * length;
-		vertex.z	+= vertexNormal.z * length;
-	});		
-};
-
 
 /**
  * from http://stemkoski.blogspot.fr/2013/07/shaders-in-threejs-glow-and-halo.html
  * @return {[type]} [description]
  */
 function createAtmosphereMaterial(){
-	var vertexShader	= [
-		'varying vec3	vVertexWorldPosition;',
-		'varying vec3	vVertexNormal;',
+	const vertexShader	= `
+		varying vec3	vVertexWorldPosition;
+		varying vec3	vVertexNormal;
 
-		'varying vec4	vFragColor;',
+		varying vec4	vFragColor;
 
-		'void main(){',
-		'	vVertexNormal	= normalize(normalMatrix * normal);',
+		void main(){
+			vVertexNormal	= normalize(normalMatrix * normal);
 
-		'	vVertexWorldPosition	= (modelMatrix * vec4(position, 1.0)).xyz;',
+			vVertexWorldPosition	= (modelMatrix * vec4(position, 1.0)).xyz;
 
-		'	// set gl_Position',
-		'	gl_Position	= projectionMatrix * modelViewMatrix * vec4(position, 1.0);',
-		'}',
+			// set gl_Position
+			gl_Position	= projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+		}`
 
-		].join('\n')
-	var fragmentShader	= [
-		'uniform vec3	glowColor;',
-		'uniform float	coeficient;',
-		'uniform float	power;',
+	const fragmentShader	= `
+		uniform vec3	glowColor;
+		uniform float	coeficient;
+		uniform float	power;
 
-		'varying vec3	vVertexNormal;',
-		'varying vec3	vVertexWorldPosition;',
+		varying vec3	vVertexNormal;
+		varying vec3	vVertexWorldPosition;
 
-		'varying vec4	vFragColor;',
+		varying vec4	vFragColor;
 
-		'void main(){',
-		'	vec3 worldCameraToVertex= vVertexWorldPosition - cameraPosition;',
-		'	vec3 viewCameraToVertex	= (viewMatrix * vec4(worldCameraToVertex, 0.0)).xyz;',
-		'	viewCameraToVertex	= normalize(viewCameraToVertex);',
-		'	float intensity		= pow(coeficient + dot(vVertexNormal, viewCameraToVertex), power);',
-		'	gl_FragColor		= vec4(glowColor, intensity);',
-		'}',
-	].join('\n')
+		void main(){
+			vec3 worldCameraToVertex= vVertexWorldPosition - cameraPosition;
+			vec3 viewCameraToVertex	= (viewMatrix * vec4(worldCameraToVertex, 0.0)).xyz;
+			viewCameraToVertex	= normalize(viewCameraToVertex);
+			float intensity		= pow(coeficient + dot(vVertexNormal, viewCameraToVertex), power);
+			gl_FragColor		= vec4(glowColor, intensity);
+		}`
 
-	// create custom material from the shader code above
-	//   that is within specially labeled script tags
-	var material	= new THREE.ShaderMaterial({
+	const material	= new THREE.ShaderMaterial({
 		uniforms: { 
 			coeficient	: {
 				type	: "f", 
@@ -211,6 +173,7 @@ function createAtmosphereMaterial(){
 		transparent	: true,
 		depthWrite	: false,
 	});
-	return material
+
+	return material;
 }
 
