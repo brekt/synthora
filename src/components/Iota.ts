@@ -5,10 +5,10 @@ import {
   IotaSystemOptions
 } from '../types';
 import prefs from './prefs';
+import { rand } from '../utils';
 
 export default class Iota extends THREE.Object3D {
   geometry: THREE.SphereBufferGeometry;
-  // material: THREE.MeshPhysicalMaterial;
   material: THREE.MeshLambertMaterial;
   mesh: THREE.Mesh;
   prefs: IotaPrefs;
@@ -17,21 +17,7 @@ export default class Iota extends THREE.Object3D {
   constructor({ worldSize }: IotaSystemOptions) {
     super();
 
-    /**
-     *   var glowMesh = new THREEx.GeometricGlowMesh(mesh);
-  mesh.add(glowMesh.object3d);
-
-  var insideUniforms  = glowMesh.insideMesh.material.uniforms;
-  insideUniforms.glowColor.value.set('yellow');
-
-  var outsideUniforms = glowMesh.outsideMesh.material.uniforms;
-  outsideUniforms.glowColor.value.set('yellow');
-  
-  return mesh
-     */
-
     this.geometry = new THREE.SphereBufferGeometry(5, 32, 32);
-    // this.material = new THREE.MeshPhysicalMaterial({});
     this.material = new THREE.MeshLambertMaterial({
       color: '#277ec9',
       transparent: true,
@@ -47,7 +33,7 @@ export default class Iota extends THREE.Object3D {
 
 
     const [x, y, z] = this.getStartPosition(worldSize);
-    const color = this.getPaletteColor();
+    const color = this.getRandomColor();
 
     this.mesh.position.set(x, y, z);
     this.velocity = this.getVelocity();
@@ -57,21 +43,21 @@ export default class Iota extends THREE.Object3D {
   }
 
   getStartPosition(worldSize: number): number[] {
-    const x = Math.random() * -worldSize + worldSize;
-    const y = Math.random() * -worldSize + worldSize;
-    const z = Math.random() * -worldSize + worldSize;
+    const x = rand(-worldSize, worldSize);
+    const y = rand(-worldSize, worldSize);
+    const z = rand(-worldSize, worldSize);
 
     return [x, y, z];
   }
 
   getPaletteColor(): number {
-    return iotaPalette[Math.floor(Math.random() * iotaPalette.length)];
+    return iotaPalette[Math.floor(rand(0, iotaPalette.length))];
   }
 
   getRandomColor(): string {
-    const h = Math.ceil(Math.random() * 360);
-    const s = Math.ceil(Math.random() * 50) + 50;
-    const l = Math.ceil(Math.random() * 50) + 50;
+    const h = Math.ceil(rand(0, 360));
+		const s = Math.ceil(rand(20, 100));
+    const l = Math.ceil(rand(20, 80));
 
     return `hsl(${h}, ${s}%, ${l}%)`;
   }
@@ -79,10 +65,6 @@ export default class Iota extends THREE.Object3D {
   getVelocity(): number[] {
     return [rand(-1, 1), rand(-1, 1), rand(-1, 1)];
   }
-}
-
-function rand(min: number, max: number): number {
-  return Math.random() * (max - min) + min;
 }
 
 class GlowMesh {
@@ -94,9 +76,10 @@ class GlowMesh {
 	constructor(mesh: THREE.Mesh) {
 		this.object3d	= new THREE.Object3D
 
-		const innerGeometry = new THREE.SphereBufferGeometry(6, 32, 32);
+		const innerGeometry = new THREE.SphereBufferGeometry(5, 32, 32);
 		const innerMaterial = createAtmosphereMaterial()
-		innerMaterial.uniforms.glowColor.value	= new THREE.Color('cyan')
+
+		innerMaterial.uniforms.glowColor.value	= new THREE.Color('magenta')
 		innerMaterial.uniforms.coeficient.value = 1.1
 		innerMaterial.uniforms.power.value	= 1.4
 		this.insideMesh = new THREE.Mesh(innerGeometry, innerMaterial );
@@ -104,6 +87,7 @@ class GlowMesh {
 	
 		const outerGeometry = new THREE.SphereBufferGeometry(7, 32, 32);
 		const outerMaterial = createAtmosphereMaterial()
+
 		outerMaterial.uniforms.glowColor.value	= new THREE.Color('cyan')
 		outerMaterial.uniforms.coeficient.value	= 0.1
 		outerMaterial.uniforms.power.value	= 1.2
