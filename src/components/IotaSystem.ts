@@ -1,8 +1,12 @@
 import * as THREE from 'three';
 import { Object3D, Vector3 } from 'three';
 import Iota from './Iota';
-import { IotaSystemOptions } from '../types';
 import transport from './Omegaphone/Scheduler';
+
+interface IotaSystemOptions {
+  count: number;
+  worldSize: number;
+}
 
 export default class IotaSystem extends Object3D {
   pivot: THREE.Object3D;
@@ -28,7 +32,7 @@ export default class IotaSystem extends Object3D {
 
     this.detectCollision();
 
-    transport.start();
+    // transport.start();
   }
 
   animate() {
@@ -46,8 +50,11 @@ export default class IotaSystem extends Object3D {
     });
   }
 
-  handleCollision(iotas: Iota[]) {
-    // snare.trigger();
+  handleCollision(colliders: Iota[]) {
+    console.log(colliders.length);
+    colliders.forEach(iota => {
+      iota.material.color.setColorName('white');
+    })
   }
 
   constrain(num: number): number {
@@ -60,15 +67,21 @@ export default class IotaSystem extends Object3D {
 
   detectCollision() {
     setInterval(() => {
-      const colliders = [];
+      const colliders: Iota[] = [];
 
       // TODO: also try memoizing so no double check if sticking with nested for loop
       // TODO: use a bounding box or sphere to detect close iotas (thanks Cray)
 
       for (let i = 0; i < this.iotas.length - 1; i++) {
         for (let j = i + 1; j < this.iotas.length; j++) {
-          if (this.iotas[i].mesh.position.distanceTo(this.iotas[j].mesh.position) < 10) {
-            this.handleCollision([this.iotas[i], this.iotas[j]]);
+          if (this.iotas[i].mesh.position.distanceTo(this.iotas[j].mesh.position) < 20) {
+            if (!colliders.includes(this.iotas[i])) {
+              colliders.push(this.iotas[i]);
+            }
+            if (!colliders.includes(this.iotas[j])) {
+              colliders.push(this.iotas[j]);
+            }
+            this.handleCollision(colliders);
           }
         }
       }

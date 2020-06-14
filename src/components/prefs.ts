@@ -1,41 +1,49 @@
-import { IotaPrefs } from '../types';
+// import { IotaPrefs, PrefCategories } from '../types';
 
-const kick: string[] = [
-  'sixteenth',
-  'eighth',
-  'same',
-  'remove',
-  'timbre'
-];
+interface IotaPrefs { [name: string]: string }
 
-const prefs = ['kick'];
+interface PrefCategories { [name: string]: string[] }
 
-function getInitialPrefs() : IotaPrefs {
+const prefCategories: PrefCategories = {
+    chords: [
+        'II VI V I',
+        'I IV V I',
+        'I III I IV',
+        'IV V II I'
+    ],
+    drums: [
+        'add',
+        'remove'
+    ],
+    modes: [
+        'ionian',
+        'dorian',
+        'phrygian',
+        'lydian',
+        'mixolydian',
+        'aeolian',
+        'locrian',
+        'harmonic',
+        'melodic',
+        'chromatic'
+    ]
+};
 
-  const initialPrefs: IotaPrefs = {};
+export function getInitialPrefs() : IotaPrefs {
 
-  prefs.forEach(name => {
-    initialPrefs[name] = random(name);
-  });
+    const initialPrefs: IotaPrefs = {};
 
-  return initialPrefs;
+    for (const category in prefCategories) {
+        initialPrefs[category] = getRandomPref(category);
+    }
+
+    return initialPrefs;
 }
 
-function random(pref: string) {
-  switch (pref) {
-    case 'kick':
-      return kick[Math.floor(Math.random() * kick.length)]
-    default:
-      console.error(`No ${pref} pref found.`);
+function getRandomPref(category: string) {
 
-      return '';
-  }
+    return prefCategories[category][Math.floor(Math.random() * prefCategories[category].length)]
+
 }
 
-export default {
-  getInitialPrefs,
-  kick,
-  random
-}
-
-
+export default getInitialPrefs;

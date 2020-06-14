@@ -20,6 +20,12 @@ class Polis {
         
     }
 
+    generateKick(vote) {
+        const currentKickPref = window.electedPrefs.kick;
+
+
+    }
+
 }
 
 /**

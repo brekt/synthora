@@ -24,9 +24,6 @@ class Scheduler {
             midTom: this.getRandomDrumPattern(8),
             hiTom: this.getRandomDrumPattern(8)
         };
-
-        console.log(window.electedPrefs);
-
     }
 
     start() {
