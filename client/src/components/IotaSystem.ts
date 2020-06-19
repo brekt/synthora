@@ -1,7 +1,6 @@
-import * as THREE from 'three';
-import { Object3D, Vector3 } from 'three';
-import Iota from './Iota';
-import transport from './Omegaphone/Scheduler';
+import { Object3D } from "three";
+import Iota from "./Iota";
+import transport from "./Omegaphone/Scheduler";
 
 interface IotaSystemOptions {
   count: number;
@@ -19,7 +18,7 @@ export default class IotaSystem extends Object3D {
 
     this.count = options.count;
     this.worldSize = options.worldSize;
-    this.pivot = new THREE.Object3D();
+    this.pivot = new Object3D();
 
     for (let i = 0; i < this.count; i++) {
       const iota = new Iota(options);
@@ -51,10 +50,10 @@ export default class IotaSystem extends Object3D {
   }
 
   handleCollision(colliders: Iota[]) {
-    console.log(colliders.length);
-    colliders.forEach(iota => {
-      iota.material.color.setColorName('white');
-    })
+    // console.log(colliders.length);
+    // colliders.forEach((iota) => {
+    //   iota.material.color.setColorName("white");
+    // });
   }
 
   constrain(num: number): number {
@@ -74,7 +73,11 @@ export default class IotaSystem extends Object3D {
 
       for (let i = 0; i < this.iotas.length - 1; i++) {
         for (let j = i + 1; j < this.iotas.length; j++) {
-          if (this.iotas[i].mesh.position.distanceTo(this.iotas[j].mesh.position) < 20) {
+          if (
+            this.iotas[i].mesh.position.distanceTo(
+              this.iotas[j].mesh.position
+            ) < 20
+          ) {
             if (!colliders.includes(this.iotas[i])) {
               colliders.push(this.iotas[i]);
             }
@@ -85,7 +88,6 @@ export default class IotaSystem extends Object3D {
           }
         }
       }
-
     }, 1000);
   }
 }

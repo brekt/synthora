@@ -1,39 +1,42 @@
 {
-  "name": "synthora",
-  "version": "0.0.1",
-  "description": "A Musical AI World",
-  "main": "index.js",
-  "scripts": {
-    "start": "webpack-dev-server",
-    "test": "jest"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/brekt/synthora.git"
-  },
-  "keywords": [
-    "synth",
-    "audio",
-    "three.js",
-    "typescript",
-    "ai"
-  ],
-  "author": "Mike Burnett",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/brekt/synthora/issues"
-  },
-  "homepage": "https://github.com/brekt/synthora#readme",
-  "dependencies": {
-    "@types/three": "^0.103.2",
-    "three": "^0.115.0",
-    "tone": "^14.7.7",
-    "ts-loader": "^6.2.2",
-    "typescript": "^3.8.3"
-  },
-  "devDependencies": {
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.11.0"
-  }
+    "name": "synthora",
+    "version": "0.0.1",
+    "description": "A Musical AI World",
+    "main": "index.js",
+    "scripts": {
+        "start": "npm run build && node ./server/index.js",
+        "dev": "webpack-dev-server",
+        "build": "webpack --mode=production",
+        "test": "jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/brekt/synthora.git"
+    },
+    "keywords": [
+        "synth",
+        "audio",
+        "three.js",
+        "typescript",
+        "ai"
+    ],
+    "author": "Mike Burnett",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/brekt/synthora/issues"
+    },
+    "homepage": "https://github.com/brekt/synthora#readme",
+    "dependencies": {
+        "@types/three": "^0.103.2",
+        "express": "^4.17.1",
+        "three": "^0.115.0",
+        "tone": "^14.7.7",
+        "ts-loader": "^6.2.2",
+        "typescript": "^3.8.3"
+    },
+    "devDependencies": {
+        "webpack": "^4.42.1",
+        "webpack-cli": "^3.3.11",
+        "webpack-dev-server": "^3.11.0"
+    }
 }
