@@ -27,14 +27,20 @@
     },
     "homepage": "https://github.com/brekt/synthora#readme",
     "dependencies": {
+        "@material-ui/core": "^4.10.2",
+        "@types/react": "^16.9.38",
+        "@types/react-dom": "^16.9.8",
         "@types/three": "^0.103.2",
         "express": "^4.17.1",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
         "three": "^0.115.0",
-        "tone": "^14.7.7",
-        "ts-loader": "^6.2.2",
-        "typescript": "^3.8.3"
+        "tone": "^14.7.7"
     },
     "devDependencies": {
+        "source-map-loader": "^1.0.0",
+        "ts-loader": "^6.2.2",
+        "typescript": "^3.8.3",
         "webpack": "^4.42.1",
         "webpack-cli": "^3.3.11",
         "webpack-dev-server": "^3.11.0"

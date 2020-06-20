@@ -1,21 +1,27 @@
 {
-  "compilerOptions": {
-    "moduleResolution": "node",
-    "noImplicitAny": true,
-    "module": "es6",
-    "target": "es6",
-    "allowJs": true,
-    "sourceMap": true,
-    "lib": [
-      "es6",
-      "dom",
-      "es5"
+    "compilerOptions": {
+        "moduleResolution": "node",
+        "noImplicitAny": true,
+        "module": "esnext",
+        "target": "es5",
+        "allowJs": true,
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext"
+        ],
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "jsx": "react"
+    },
+    "include": [
+        "client/src/**/*"
+    ],
+    "files": [
+        "./declarations.d.ts"
     ]
-  },
-  "include": [
-    "client/src/**/*"
-  ],
-  "files": [
-    "./declarations.d.ts"
-  ]
 }
