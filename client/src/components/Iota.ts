@@ -6,7 +6,7 @@ import {
 } from 'three';
 import GlowMesh from './GlowMesh';
 import { iotaPalette } from '../colors';
-import getInitialPrefs from './prefs';
+import { getInitialPrefs } from './prefs';
 import { rand } from '../utils';
 
 interface IotaSystemOptions {

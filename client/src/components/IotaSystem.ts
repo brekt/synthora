@@ -28,11 +28,13 @@ export default class IotaSystem extends Object3D {
             this.iotas.push(iota);
         }
 
+        console.log(this.iotas[0]);
+
         scene.add(this.pivot);
 
         this.detectCollision();
 
-        transport.start();
+        // transport.start();
     }
 
     animate() {
