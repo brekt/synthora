@@ -1,48 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Synthora</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Synthora</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
-      body {
-        background-color: black;
-        overflow: hidden;
-      }
+            body {
+                background-color: black;
+                overflow: hidden;
+            }
 
-      canvas {
-        height: 100%;
-        width: 100%;
-      }
+            canvas {
+                height: 100%;
+                width: 100%;
+            }
 
-      #start-button {
-        position: absolute;
-        top: 5%;
-        left: 5%;
-        padding: 5px 10px;
-        border-radius: 5px;
-        background-color: powderblue
-      }
-    </style>
-  </head>
+            #start-button {
+                position: absolute;
+                top: 5%;
+                left: 5%;
+                padding: 5px 10px;
+                border-radius: 5px;
+                background-color: powderblue;
+            }
+        </style>
+    </head>
 
-  <body>
-    <canvas id="mainCanvas"></canvas>
-    <script src="bundle.js"></script>
-    <button id="start-button">Start</button>
-    <script>
-      const startButton = document.querySelector('#start-button');
+    <body>
+        <canvas id="mainCanvas"></canvas>
+        <script src="../bundle.js"></script>
+        <button id="start-button">Start</button>
+        <script>
+            const startButton = document.querySelector('#start-button');
 
-      startButton.addEventListener('click', function() {
-        this.hidden = true;
-      });
-    </script>
-  </body>
+            startButton.addEventListener('click', function () {
+                this.hidden = true;
+            });
+        </script>
+    </body>
 </html>

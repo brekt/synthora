@@ -1,22 +1,24 @@
-import { Filter, NoiseSynth } from 'tone';
+import { Filter, NoiseSynth, Volume, Destination } from 'tone';
 
 class Hat {
     hat: NoiseSynth;
     filter: Filter;
     noise: NoiseSynth;
+    volume: Volume;
 
     constructor() {
         const options = {
             envelope: {
                 attack: 0.001,
                 decay: 0.05,
-                sustain: 0.001
-            }
+                sustain: 0.001,
+            },
         };
 
         this.hat = new NoiseSynth(options);
-        this.filter = new Filter(1500, 'highpass').toDestination();
-        this.hat.connect(this.filter);
+        this.filter = new Filter(1500, 'highpass');
+        this.volume = new Volume(-16);
+        this.hat.chain(this.filter, this.volume, Destination);
     }
 
     trigger() {

@@ -1,4 +1,4 @@
-import { MembraneSynth } from 'tone';
+import { MembraneSynth, Volume, Destination } from 'tone';
 
 class Kick {
     kick: MembraneSynth;
@@ -10,19 +10,21 @@ class Kick {
                 decay: 1,
                 sustain: 1,
                 release: 2,
-            }
+            },
         };
 
-        this.kick = new MembraneSynth(options).toDestination();
+        const volume = new Volume(-16);
+
+        this.kick = new MembraneSynth(options);
+
+        this.kick.chain(volume, Destination);
     }
 
     trigger() {
-        this.kick.triggerAttackRelease('C1', '16n')
+        this.kick.triggerAttackRelease('C1', '16n');
     }
 }
 
 const kick = new Kick();
 
 export default kick;
-
-

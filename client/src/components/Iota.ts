@@ -1,11 +1,24 @@
-import * as THREE from "three";
-import GlowMesh from "./GlowMesh";
-import { iotaPalette } from "../colors";
-import { IotaPrefs, IotaSystemOptions } from "../types";
-import getInitialPrefs from "./prefs";
-import { rand } from "../utils";
+import {
+    Object3D,
+    SphereBufferGeometry,
+    MeshLambertMaterial,
+    Mesh,
+} from 'three';
+import GlowMesh from './GlowMesh';
+import { iotaPalette } from '../colors';
+import getInitialPrefs from './prefs';
+import { rand } from '../utils';
 
-export default class Iota extends THREE.Object3D {
+interface IotaSystemOptions {
+    count: number;
+    worldSize: number;
+}
+
+interface IotaPrefs {
+    [name: string]: string;
+}
+
+export default class Iota extends Object3D {
     geometry: THREE.SphereBufferGeometry;
     material: THREE.MeshLambertMaterial;
     mesh: THREE.Mesh;
@@ -15,14 +28,14 @@ export default class Iota extends THREE.Object3D {
     constructor({ worldSize }: IotaSystemOptions) {
         super();
 
-        this.geometry = new THREE.SphereBufferGeometry(5, 32, 32);
-        this.material = new THREE.MeshLambertMaterial({
-            color: "#277ec9",
+        this.geometry = new SphereBufferGeometry(5, 32, 32);
+        this.material = new MeshLambertMaterial({
+            color: '#277ec9',
             transparent: true,
             opacity: 1.0,
         });
 
-        this.mesh = new THREE.Mesh(this.geometry, this.material);
+        this.mesh = new Mesh(this.geometry, this.material);
 
         const glowMesh = new GlowMesh(this.mesh);
 

@@ -6,8 +6,16 @@
     "target": "es6",
     "allowJs": true,
     "sourceMap": true,
-    "lib": ["es6", "dom", "es5"]
+    "lib": [
+      "es6",
+      "dom",
+      "es5"
+    ]
   },
-  "include": ["src/**/*"],
-  "files": ["./declarations.d.ts"]
+  "include": [
+    "client/src/**/*"
+  ],
+  "files": [
+    "./declarations.d.ts"
+  ]
 }
