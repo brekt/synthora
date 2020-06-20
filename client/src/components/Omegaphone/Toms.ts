@@ -12,25 +12,25 @@ class Tom {
                 sustain: 0.5,
                 release: 0.5,
             },
-            gain: 0.1
+            gain: 0.1,
         };
 
         this.lomidhi = lomidhi;
         this.tom = new MembraneSynth(options);
-        this.tom.volume.value = -16;
+        this.tom.volume.value = -24;
         this.tom.toDestination();
     }
 
-  trigger() {
+    trigger() {
         switch (this.lomidhi) {
             case 'lo':
-                this.tom.triggerAttackRelease('G2', '16n')
+                this.tom.triggerAttackRelease('G2', '16n');
                 break;
             case 'mid':
-                this.tom.triggerAttackRelease('C3', '16n')
+                this.tom.triggerAttackRelease('C3', '16n');
                 break;
             case 'hi':
-                this.tom.triggerAttackRelease('G3', '16n')
+                this.tom.triggerAttackRelease('G3', '16n');
                 break;
             default:
                 console.error('Who are you Neil Peart?');
@@ -45,7 +45,5 @@ const hi = new Tom('high');
 export default {
     lo,
     mid,
-    hi
+    hi,
 };
-
-
