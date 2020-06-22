@@ -16,7 +16,9 @@
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,
         "isolatedModules": true,
-        "jsx": "react"
+        "jsx": "react",
+        "noImplicitThis": true,
+        "strictNullChecks": true
     },
     "include": [
         "client/src/**/*"

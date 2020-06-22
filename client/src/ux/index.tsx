@@ -1,15 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import App from './App';
-import { Button } from '@material-ui/core';
-
-function App() {
-    return <Button color="primary">Hello World</Button>;
-}
+import Menu from './components/Menu';
 
 ReactDOM.render(
     <React.StrictMode>
-        <App />
+        <Menu />
     </React.StrictMode>,
     document.getElementById('root')
 );

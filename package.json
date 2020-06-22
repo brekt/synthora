@@ -38,6 +38,8 @@
         "tone": "^14.7.7"
     },
     "devDependencies": {
+        "@types/material-ui": "^0.21.7",
+        "@types/react-tap-event-plugin": "0.0.30",
         "source-map-loader": "^1.0.0",
         "ts-loader": "^6.2.2",
         "typescript": "^3.8.3",
