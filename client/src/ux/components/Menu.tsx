@@ -1,79 +1,175 @@
 import React, { useState, useEffect } from 'react';
-import Breadcrumbs, { BreadcrumbsTypeMap } from '@material-ui/core/Breadcrumbs';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
+import {
+    makeStyles,
+    Theme,
+    createStyles,
+    withStyles,
+} from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Switch from '@material-ui/core/Switch';
+import Slider from '@material-ui/core/Slider';
+import { purple } from '@material-ui/core/colors';
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            display: 'flex',
-            backgroundColor: '#333',
-            width: '50%',
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            justifyContent: 'center',
+// import handleDrumsSelect from '../somewhere' TODO
+
+const handleSetPref = (pref: string, setting: any) => {};
+
+function Divider() {
+    return <div style={{ fontSize: '18px', marginTop: '7px' }}>|</div>;
+}
+
+const DrumSwitch = withStyles({
+    switchBase: {
+        color: purple[300],
+        '&$checked': {
+            color: purple[500],
         },
-    })
-);
+        '&$checked + $track': {
+            backgroundColor: purple[500],
+        },
+    },
+    checked: {},
+    track: {},
+})(Switch);
 
-function Menu() {
-    return <PrefSelector />;
-}
-
-function handleClick(
-    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-    pref: string,
-    cb: Function
-) {
-    event.preventDefault();
-    cb(pref);
-}
+const PrettoSlider = withStyles({
+    root: {
+        color: purple[300],
+        height: 8,
+    },
+    thumb: {
+        height: 24,
+        width: 24,
+        backgroundColor: '#fff',
+        border: '2px solid currentColor',
+        marginTop: -8,
+        marginLeft: -12,
+        '&:focus, &:hover, &$active': {
+            boxShadow: 'inherit',
+        },
+    },
+    active: {},
+    valueLabel: {
+        left: 'calc(-50% + 4px)',
+    },
+    track: {
+        height: 8,
+        borderRadius: 4,
+    },
+    rail: {
+        height: 8,
+        borderRadius: 4,
+    },
+})(Slider);
 
 export default function PrefSelector() {
-    const [activePref, setActivePref] = useState();
+    const [drumsOn, setDrums] = useState(true);
 
-    const classes = useStyles();
+    const handleToggleDrums = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDrums(event.target.checked);
+    };
+
+    const [activePref, setActivePref] = useState();
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     return (
-        <nav className={classes.root}>
-            <Breadcrumbs aria-label="breadcrumb">
-                <Link
-                    style={{ cursor: 'pointer' }}
-                    color="inherit"
-                    onClick={(
-                        e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-                    ) => {
-                        handleClick(e, 'scale', setActivePref);
+        <div
+            style={{
+                display: 'flex',
+                flexDirection: 'row',
+            }}
+        >
+            <Button
+                aria-controls="drums-toggle"
+                aria-haspopup="false"
+                onClick={() => {
+                    return;
+                }}
+            >
+                Drums
+            </Button>
+            <DrumSwitch
+                checked={drumsOn}
+                onChange={handleToggleDrums}
+                color="default"
+                inputProps={{ 'aria-label': 'checkbox with default color' }}
+            />
+            <Divider />
+            <Button
+                aria-controls="scales-menu"
+                aria-haspopup="true"
+                onClick={handleClick}
+            >
+                Scale
+            </Button>
+            <Menu
+                id="scale-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+            >
+                <MenuItem
+                    onClick={() => {
+                        handleSetPref('scale', 'major');
                     }}
                 >
-                    Scale
-                </Link>
-                <Link
-                    style={{ cursor: 'pointer' }}
-                    color="inherit"
-                    onClick={(
-                        e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-                    ) => {
-                        handleClick(e, 'tempo', setActivePref);
+                    major
+                </MenuItem>
+                <MenuItem
+                    onClick={() => {
+                        handleSetPref('scale', 'minor');
                     }}
                 >
-                    Tempo
-                </Link>
-                <Link
-                    style={{ cursor: 'pointer' }}
-                    color="inherit"
-                    onClick={(
-                        e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-                    ) => {
-                        handleClick(e, 'drums', setActivePref);
+                    minor
+                </MenuItem>
+                <MenuItem
+                    onClick={() => {
+                        handleSetPref('scale', 'lydianDominant');
                     }}
                 >
-                    Drums
-                </Link>
-            </Breadcrumbs>
-        </nav>
+                    lydian dominant
+                </MenuItem>
+                <MenuItem
+                    onClick={() => {
+                        handleSetPref('scale', 'chromatic');
+                    }}
+                >
+                    chromatic
+                </MenuItem>
+                <MenuItem
+                    onClick={() => {
+                        handleSetPref('scale', 'pelog');
+                    }}
+                >
+                    pelog
+                </MenuItem>
+            </Menu>
+            <Divider />
+            <Button
+                aria-controls="tempo-slider"
+                aria-haspopup="true"
+                onClick={handleClick}
+            >
+                Tempo
+            </Button>
+            <PrettoSlider
+                style={{ maxWidth: '300px' }}
+                valueLabelDisplay="auto"
+                aria-label="pretto slider"
+                defaultValue={80}
+            />
+        </div>
     );
 }
 
