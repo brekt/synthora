@@ -12,13 +12,21 @@ import Switch from '@material-ui/core/Switch';
 import Slider from '@material-ui/core/Slider';
 import { purple } from '@material-ui/core/colors';
 
-// import handleDrumsSelect from '../somewhere' TODO
+const DEFAULT_TEMPO = 110;
 
 const handleSetPref = (pref: string, setting: any) => {};
 
 function Divider() {
-    return <div style={{ fontSize: '18px', marginTop: '7px' }}>|</div>;
+    return <div style={{ fontSize: '18px', margin: '7px 20px' }}>|</div>;
 }
+
+const menuTextStyle = {
+    marginTop: '10px',
+    fontSize: '14px',
+    color: 'rgba(232, 230, 227, 0.87)',
+    fontWeight: 500,
+    margin: '10px 20px',
+};
 
 const DrumSwitch = withStyles({
     switchBase: {
@@ -34,7 +42,7 @@ const DrumSwitch = withStyles({
     track: {},
 })(Switch);
 
-const PrettoSlider = withStyles({
+const TempoSlider = withStyles({
     root: {
         color: purple[300],
         height: 8,
@@ -42,7 +50,7 @@ const PrettoSlider = withStyles({
     thumb: {
         height: 24,
         width: 24,
-        backgroundColor: '#fff',
+        backgroundColor: purple[300],
         border: '2px solid currentColor',
         marginTop: -8,
         marginLeft: -12,
@@ -82,6 +90,12 @@ export default function PrefSelector() {
         setAnchorEl(null);
     };
 
+    const [tempo, setTempo] = useState(DEFAULT_TEMPO);
+
+    const handleTempoChange = (event: any, newValue: number) => {
+        setTempo(newValue);
+    };
+
     return (
         <div
             style={{
@@ -89,15 +103,7 @@ export default function PrefSelector() {
                 flexDirection: 'row',
             }}
         >
-            <Button
-                aria-controls="drums-toggle"
-                aria-haspopup="false"
-                onClick={() => {
-                    return;
-                }}
-            >
-                Drums
-            </Button>
+            <span style={menuTextStyle}>DRUMS</span>
             <DrumSwitch
                 checked={drumsOn}
                 onChange={handleToggleDrums}
@@ -156,19 +162,17 @@ export default function PrefSelector() {
                 </MenuItem>
             </Menu>
             <Divider />
-            <Button
-                aria-controls="tempo-slider"
-                aria-haspopup="true"
-                onClick={handleClick}
-            >
-                Tempo
-            </Button>
-            <PrettoSlider
+            <span style={menuTextStyle}>TEMPO</span>
+            <TempoSlider
                 style={{ maxWidth: '300px' }}
                 valueLabelDisplay="auto"
-                aria-label="pretto slider"
-                defaultValue={80}
+                aria-label="tempo slider"
+                defaultValue={DEFAULT_TEMPO}
+                onChange={handleTempoChange}
+                min={20}
+                max={200}
             />
+            <span style={menuTextStyle}>{tempo}</span>
         </div>
     );
 }
