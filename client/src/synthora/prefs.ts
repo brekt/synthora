@@ -56,9 +56,9 @@ function getRandomPref(category: string) {
 }
 
 function getScaleNotes(scale: string) {
-    this.scaleDegrees = scaleDegrees[scale];
+    const _scaleDegrees: number[] = scaleDegrees[scale];
 
-    const notes = this.scaleDegrees.map((degree: number) => notes[degree]);
+    return _scaleDegrees.map((degree: number) => notes[degree]);
 }
 
 export default {
