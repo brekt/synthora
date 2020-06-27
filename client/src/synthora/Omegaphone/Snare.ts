@@ -27,6 +27,10 @@ class Snare {
         this.snare.chain(this.reverb, this.volume, Destination);
     }
 
+    mute() {
+        this.volume.mute = true;
+    }
+
     trigger() {
         this.snare.triggerAttackRelease('8n');
     }

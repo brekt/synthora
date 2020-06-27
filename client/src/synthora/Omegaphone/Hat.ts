@@ -21,6 +21,10 @@ class Hat {
         this.hat.chain(this.filter, this.volume, Destination);
     }
 
+    mute() {
+        this.volume.mute = true;
+    }
+
     trigger() {
         this.hat.triggerAttackRelease('8n');
     }
