@@ -30,17 +30,19 @@ class Tom {
                 this.tom.triggerAttackRelease('C3', '16n');
                 break;
             case 'hi':
-                this.tom.triggerAttackRelease('G3', '16n');
+                this.tom.triggerAttackRelease('E3', '16n');
                 break;
             default:
-                console.error('Who are you Neil Peart?');
+                console.error(
+                    `Who are you, Neil Peart? What is ${this.lomidhi}?`
+                );
         }
     }
 }
 
 const lo = new Tom('lo');
 const mid = new Tom('mid');
-const hi = new Tom('high');
+const hi = new Tom('hi');
 
 export default {
     lo,

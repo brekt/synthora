@@ -101,6 +101,7 @@ export default function MusicUX() {
 
     const handleTempoChange = (event: any, newValue: number) => {
         setTempo(newValue);
+        window.setTempo(newValue);
     };
 
     return (

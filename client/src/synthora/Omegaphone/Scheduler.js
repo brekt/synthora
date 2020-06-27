@@ -6,8 +6,7 @@ class Scheduler {
     constructor() {
         this.transport = Tone.Transport;
 
-        // TODO: this will come from localStorage, set via UI
-        this.transport.bpm.value = 85;
+        this.transport.bpm.value = 110;
 
         // TODO: let this be handled by Polis
         window.electedPrefs = {
@@ -27,6 +26,9 @@ class Scheduler {
 
         window.muteDrums = this.muteDrums;
         window.unmuteDrums = this.unmuteDrums;
+        window.setTempo = this.setTempo.bind(this);
+
+        this.setTempo(window.userPrefs.tempo);
     }
 
     start() {
@@ -45,6 +47,11 @@ class Scheduler {
 
     unmuteDrums() {
         window.userPrefs.drums = true;
+    }
+
+    setTempo(tempo) {
+        this.transport.bpm.value = tempo;
+        window.userPrefs.tempo = tempo;
     }
 
     playDrums() {

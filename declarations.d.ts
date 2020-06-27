@@ -16,6 +16,7 @@ declare global {
     interface Window {
         electedPrefs: ElectedPrefs;
         muteDrums: function;
+        setTempo: function;
         unmuteDrums: function;
         userPrefs: UserPrefs;
         // @ts-ignore
