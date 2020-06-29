@@ -2,6 +2,7 @@ import { MembraneSynth, Volume, Destination } from 'tone';
 
 class Kick {
     kick: MembraneSynth;
+    volume: Volume;
 
     constructor() {
         const options = {
@@ -13,11 +14,15 @@ class Kick {
             },
         };
 
-        const volume = new Volume(-16);
+        this.volume = new Volume(-16);
 
         this.kick = new MembraneSynth(options);
 
-        this.kick.chain(volume, Destination);
+        this.kick.chain(this.volume, Destination);
+    }
+
+    mute() {
+        this.volume.mute = true;
     }
 
     trigger() {

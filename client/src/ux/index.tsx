@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Menu from './components/Menu';
+import MusicUX from './components/MusicUX';
 
 ReactDOM.render(
     <React.StrictMode>
-        <Menu />
+        <MusicUX />
     </React.StrictMode>,
     document.getElementById('root')
 );

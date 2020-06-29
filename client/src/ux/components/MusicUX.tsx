@@ -72,11 +72,18 @@ const TempoSlider = withStyles({
     },
 })(Slider);
 
-export default function PrefSelector() {
+export default function MusicUX() {
     const [drumsOn, setDrums] = useState(true);
 
     const handleToggleDrums = (event: React.ChangeEvent<HTMLInputElement>) => {
         setDrums(event.target.checked);
+
+        console.log(event.target.checked);
+        if (event.target.checked === false) {
+            window.muteDrums();
+        } else if (event.target.checked === true) {
+            window.unmuteDrums();
+        }
     };
 
     const [activePref, setActivePref] = useState();
@@ -94,6 +101,7 @@ export default function PrefSelector() {
 
     const handleTempoChange = (event: any, newValue: number) => {
         setTempo(newValue);
+        window.setTempo(newValue);
     };
 
     return (
