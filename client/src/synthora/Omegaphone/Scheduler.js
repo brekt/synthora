@@ -1,5 +1,6 @@
 import * as Tone from 'tone';
 import { kick, snare, hat, toms } from './Drums';
+import Chords from './Chords';
 import { randInt } from '../../utils';
 
 class Scheduler {
@@ -16,6 +17,7 @@ class Scheduler {
             loTom: this.getRandomDrumPattern(8),
             midTom: this.getRandomDrumPattern(8),
             hiTom: this.getRandomDrumPattern(8),
+            key: this.getRandomKey(),
         };
 
         window.userPrefs = {
