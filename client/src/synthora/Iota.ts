@@ -14,15 +14,10 @@ interface IotaSystemOptions {
     worldSize: number;
 }
 
-interface IotaPrefs {
-    [name: string]: string;
-}
-
 export default class Iota extends Object3D {
     geometry: THREE.SphereBufferGeometry;
     material: THREE.MeshLambertMaterial;
     mesh: THREE.Mesh;
-    prefs: IotaPrefs;
     velocity: number[];
 
     constructor({ worldSize }: IotaSystemOptions) {
@@ -48,7 +43,6 @@ export default class Iota extends Object3D {
         this.velocity = this.getVelocity();
         this.material.color.set(color);
         this.material.reflectivity = 0.2;
-        this.prefs = getInitialPrefs();
     }
 
     getStartPosition(worldSize: number): number[] {

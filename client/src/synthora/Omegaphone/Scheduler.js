@@ -1,5 +1,6 @@
 import * as Tone from 'tone';
 import { kick, snare, hat, toms } from './Drums';
+import Chords from './Chords';
 import { randInt } from '../../utils';
 
 class Scheduler {
@@ -34,7 +35,10 @@ class Scheduler {
     start() {
         Tone.start();
         this.transport.start();
-        this.playDrums();
+        setTimeout(() => {
+            this.playDrums();
+            this.playChords();
+        }, 1000);
     }
 
     stop() {
@@ -106,6 +110,21 @@ class Scheduler {
                 i = 0;
             }
         }, '16n');
+    }
+
+    playChords() {
+        const chords = Chords.chords;
+
+        let i = 0;
+
+        this.transport.scheduleRepeat(() => {
+            Chords.playChord(chords[i]);
+            i = i + 1;
+
+            if (i > 3) {
+                i = 0;
+            }
+        }, '4n');
     }
 
     metronome() {

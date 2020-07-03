@@ -16,6 +16,8 @@ declare global {
     interface Window {
         electedPrefs: ElectedPrefs;
         muteDrums: function;
+        progressions: number[][];
+        scales: string[];
         setTempo: function;
         unmuteDrums: function;
         userPrefs: UserPrefs;

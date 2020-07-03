@@ -1,10 +1,8 @@
-const notes = ['A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab'];
 const scaleDegrees: ScaleDegrees = {
-    chromatic: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-    lydianDominant: [1, 3, 5, 7, 8, 10, 11],
-    major: [1, 3, 5, 6, 8, 10, 12],
-    minor: [1, 3, 4, 6, 8, 9, 11],
-    pelog: [1, 2, 4, 7, 8],
+    dorian: [0, 2, 3, 5, 7, 9, 10],
+    lydianDominant: [0, 2, 4, 6, 7, 9, 10],
+    major: [0, 2, 4, 5, 7, 9, 11],
+    minor: [0, 2, 3, 5, 7, 8, 10],
 };
 
 interface ScaleDegrees {
@@ -12,34 +10,34 @@ interface ScaleDegrees {
 }
 
 interface IotaPrefs {
-    [name: string]: string;
+    [name: string]: string | number[];
 }
 
 interface PrefCategories {
-    [name: string]: string[];
+    [name: string]: string[] | number[][];
+    key: string[];
+    drum: string[];
+    scale: string[];
+    progression: number[][];
 }
 
 const prefCategories: PrefCategories = {
-    key: [
-        'A',
-        'Bb|A#',
-        'B',
-        'C',
-        'Db|C#',
-        'D',
-        'Eb|D#',
-        'E',
-        'F',
-        'Gb|F#',
-        'G',
-        'Ab|G#',
+    key: ['A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab'],
+    progression: [
+        [2, 5, 4, 0], // 'III VI V I'
+        [0, 3, 4, 0], // 'I IV V I'
+        [0, 2, 0, 4], // 'I III I V'
+        [3, 4, 1, 0], // 'IV V II I'
+        [2, 5, 1, 3], // 'III VI II IV'
     ],
-    progression: ['II VI V I', 'I IV V I', 'I III I IV', 'IV V II I'],
     drum: ['add', 'remove'],
-    scale: ['major', 'minor', 'lydianDominant', 'chromatic', 'pelog'],
+    scale: ['major', 'minor', 'dorian', 'lydianDominant'],
 };
 
-export function getInitialPrefs(): IotaPrefs {
+window.progressions = prefCategories.progression;
+window.scales = prefCategories.scale;
+
+function getInitialPrefs(): IotaPrefs {
     const initialPrefs: IotaPrefs = {};
 
     for (const category in prefCategories) {
@@ -55,14 +53,4 @@ function getRandomPref(category: string) {
     ];
 }
 
-function getScaleNotes(scale: string) {
-    const _scaleDegrees: number[] = scaleDegrees[scale];
-
-    return _scaleDegrees.map((degree: number) => notes[degree]);
-}
-
-export default {
-    getInitialPrefs,
-    getRandomPref,
-    getScaleNotes,
-};
+export { getInitialPrefs, getRandomPref, prefCategories };
