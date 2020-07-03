@@ -1,4 +1,4 @@
-import { PolySynth, Synth, Volume, Destination } from 'tone';
+import { Part, PolySynth, Synth, Volume, Destination } from 'tone';
 import { prefCategories } from '../prefs';
 
 const notes = ['Ab', 'A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G'];
@@ -58,8 +58,6 @@ class Chords {
     }
 
     buildChords() {
-        // this.progression = [0, 2, 0, 4]
-
         const notes = keySignatures[this.key];
 
         const chord1Voicing = voicings[this.progression[0]];
@@ -76,6 +74,7 @@ class Chords {
     }
 
     playChord(notes: string[], duration: string) {
+        console.log('getting in playChord');
         this.synth.triggerAttackRelease(notes, duration);
     }
 

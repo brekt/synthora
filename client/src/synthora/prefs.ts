@@ -22,7 +22,7 @@ interface PrefCategories {
 }
 
 const prefCategories: PrefCategories = {
-    key: ['A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab'],
+    key: ['A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab'],
     progression: [
         [2, 5, 4, 0], // 'III VI V I'
         [0, 3, 4, 0], // 'I IV V I'
