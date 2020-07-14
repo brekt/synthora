@@ -4,6 +4,9 @@ interface ElectedPrefs {
     kick: string;
     snare: string;
     hat: string;
+    loTom: string;
+    midTom: string;
+    hiTom: string;
 }
 
 interface UserPrefs {

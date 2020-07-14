@@ -1,9 +1,12 @@
 import * as Tone from 'tone';
 import { kick, snare, hat, toms } from './Drums';
-import Chords from './Chords';
+import { keySignatures } from './Chords';
 import { randInt } from '../../utils';
+import bass from './Bass';
 
 class Scheduler {
+    transport: typeof Tone.Transport;
+
     constructor() {
         this.transport = Tone.Transport;
 
@@ -33,11 +36,11 @@ class Scheduler {
     }
 
     start() {
-        Tone.start();
-        this.transport.start();
         setTimeout(() => {
+            Tone.start();
+            this.transport.start();
             this.playDrums();
-            this.playChords();
+            this.playBass();
         }, 1000);
     }
 
@@ -53,7 +56,7 @@ class Scheduler {
         window.userPrefs.drums = true;
     }
 
-    setTempo(tempo) {
+    setTempo(tempo: number) {
         this.transport.bpm.value = tempo;
         window.userPrefs.tempo = tempo;
     }
@@ -104,7 +107,7 @@ class Scheduler {
                 toms.hi.trigger();
             }
 
-            i = i + 1;
+            i++;
 
             if (i > 127) {
                 i = 0;
@@ -112,20 +115,26 @@ class Scheduler {
         }, '16n');
     }
 
-    playChords() {
-        const chords = Chords.chords;
+    playBass() {
+        const key = keySignatures.C;
+        let hit = 0;
 
-        let i = 0;
+        this.transport.scheduleRepeat((time) => {
+            let note;
 
-        this.transport.scheduleRepeat(() => {
-            Chords.playChord(chords[i]);
-            i = i + 1;
-
-            if (i > 3) {
-                i = 0;
+            if (hit === 0) {
+                note = 'C';
+            } else {
+                note = key[Math.floor(Math.random() * key.length)];
             }
-        }, '4n');
+
+            console.log(note);
+            bass.playNote(`${note}2`, '4n');
+            hit = (hit + 1) % 4;
+        }, '1m');
     }
+
+    makeBassLine() {}
 
     metronome() {
         const beeper = new Tone.Oscillator().toDestination();
@@ -135,7 +144,7 @@ class Scheduler {
         }, '4n');
     }
 
-    getRandomDrumPattern(probabilityRange) {
+    getRandomDrumPattern(probabilityRange: number) {
         let hits = '';
 
         for (let i = 0; i < 128; i++) {
