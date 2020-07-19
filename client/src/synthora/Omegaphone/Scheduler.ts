@@ -3,6 +3,7 @@ import { kick, snare, hat, toms } from './Drums';
 import { keySignatures } from './Chords';
 import { randInt } from '../../utils';
 import bass from './Bass';
+import lead from './Melody';
 
 const key = keySignatures.C;
 const noteLengths = ['16n', '8n', '8n.', '4n', '4n.', '2n', '1m'];
@@ -60,6 +61,7 @@ class Scheduler {
             this.transport.start();
             this.playDrums();
             this.playBass();
+            this.playMelody();
         }, 1000);
     }
 
@@ -70,11 +72,13 @@ class Scheduler {
     muteAll() {
         window.userPrefs.drums = false;
         bass.mute();
+        lead.mute();
     }
 
     unmuteAll() {
         window.userPrefs.drums = true;
         bass.unmute();
+        lead.unmute();
     }
 
     setTempo(tempo: number) {
@@ -173,6 +177,51 @@ class Scheduler {
         }
 
         return bassline;
+    }
+
+    playMelody() {
+        const melody = this.makeMelody();
+
+        this.transport.scheduleRepeat(async (time) => {
+            for (let i = 0; i < melody.length; i++) {
+                const note = melody[i][0];
+                const duration = melody[i][1];
+
+                await lead.play(note, duration);
+            }
+        }, '1m');
+    }
+
+    makeMelody() {
+        let subdivisionSpaceLeft = 16;
+        const melody = [['C5', getRandomNoteLength()]];
+
+        while (subdivisionSpaceLeft > 0) {
+            melody.push([getRandomNote(), getRandomNoteLength()]);
+        }
+
+        function getRandomNote() {
+            const pentatonicNotes = ['C', 'D', 'E', 'G', 'A'];
+
+            return (
+                pentatonicNotes[
+                    Math.floor(Math.random() * pentatonicNotes.length)
+                ] + '5'
+            );
+        }
+
+        function getRandomNoteLength() {
+            const randomNoteLength = noteLengths[Math.floor(Math.random() * 6)];
+            subdivisionSpaceLeft -= subdivisions[randomNoteLength];
+
+            if (subdivisionSpaceLeft < 0) {
+                return '16n';
+            }
+
+            return randomNoteLength;
+        }
+
+        return melody;
     }
 
     metronome() {
