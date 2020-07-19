@@ -1,7 +1,6 @@
 import { Object3D } from 'three';
 import Iota from './Iota';
 import transport from './Omegaphone/Scheduler';
-import chords from './Omegaphone/Chords';
 
 interface IotaSystemOptions {
     count: number;
@@ -34,7 +33,7 @@ export default class IotaSystem extends Object3D {
 
         this.detectCollision();
 
-        // transport.start();
+        transport.start();
     }
 
     animate() {

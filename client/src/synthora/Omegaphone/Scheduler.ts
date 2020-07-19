@@ -1,9 +1,31 @@
 import * as Tone from 'tone';
 import { kick, snare, hat, toms } from './Drums';
-import Chords from './Chords';
+import { keySignatures } from './Chords';
 import { randInt } from '../../utils';
+import bass from './Bass';
+
+const key = keySignatures.C;
+const noteLengths = ['16n', '8n', '8n.', '4n', '4n.', '2n', '1m'];
+
+interface Subdivisions {
+    [name: string]: number;
+}
+
+type Bassline = string[][];
+
+const subdivisions: Subdivisions = {
+    '16n': 1,
+    '8n': 2,
+    '8n.': 3,
+    '4n': 4,
+    '4n.': 6,
+    '2n': 8,
+    '1m': 16,
+};
 
 class Scheduler {
+    transport: typeof Tone.Transport;
+
     constructor() {
         this.transport = Tone.Transport;
 
@@ -22,7 +44,7 @@ class Scheduler {
         window.userPrefs = {
             drums: true,
             scale: 'major',
-            tempo: 110,
+            tempo: 80,
         };
 
         window.muteDrums = this.muteDrums;
@@ -33,11 +55,11 @@ class Scheduler {
     }
 
     start() {
-        Tone.start();
-        this.transport.start();
         setTimeout(() => {
-            this.playDrums();
-            this.playChords();
+            Tone.start();
+            this.transport.start();
+            // this.playDrums();
+            // this.playBass();
         }, 1000);
     }
 
@@ -53,7 +75,7 @@ class Scheduler {
         window.userPrefs.drums = true;
     }
 
-    setTempo(tempo) {
+    setTempo(tempo: number) {
         this.transport.bpm.value = tempo;
         window.userPrefs.tempo = tempo;
     }
@@ -104,7 +126,7 @@ class Scheduler {
                 toms.hi.trigger();
             }
 
-            i = i + 1;
+            i++;
 
             if (i > 127) {
                 i = 0;
@@ -112,19 +134,43 @@ class Scheduler {
         }, '16n');
     }
 
-    playChords() {
-        const chords = Chords.chords;
+    playBass() {
+        const bassline = this.makeBassLine();
 
-        let i = 0;
+        this.transport.scheduleRepeat(async (time) => {
+            for (let i = 0; i < bassline.length; i++) {
+                const note = bassline[i][0];
+                const duration = bassline[i][1];
 
-        this.transport.scheduleRepeat(() => {
-            Chords.playChord(chords[i]);
-            i = i + 1;
-
-            if (i > 3) {
-                i = 0;
+                await bass.play(note, duration);
             }
-        }, '4n');
+        }, '1m');
+    }
+
+    makeBassLine(): Bassline {
+        let subdivisionSpaceLeft = 16;
+        const bassline = [['C2', getRandomBassNoteLength()]];
+
+        while (subdivisionSpaceLeft > 0) {
+            bassline.push([getRandomBassNote(), getRandomBassNoteLength()]);
+        }
+
+        function getRandomBassNote() {
+            return key[Math.floor(Math.random() * key.length)] + '2';
+        }
+
+        function getRandomBassNoteLength() {
+            const randomNoteLength = noteLengths[Math.floor(Math.random() * 6)];
+            subdivisionSpaceLeft -= subdivisions[randomNoteLength];
+
+            if (subdivisionSpaceLeft < 0) {
+                return '16n';
+            }
+
+            return randomNoteLength;
+        }
+
+        return bassline;
     }
 
     metronome() {
@@ -135,7 +181,7 @@ class Scheduler {
         }, '4n');
     }
 
-    getRandomDrumPattern(probabilityRange) {
+    getRandomDrumPattern(probabilityRange: number) {
         let hits = '';
 
         for (let i = 0; i < 128; i++) {

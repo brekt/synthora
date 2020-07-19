@@ -12,7 +12,7 @@ import Switch from '@material-ui/core/Switch';
 import Slider from '@material-ui/core/Slider';
 import { purple } from '@material-ui/core/colors';
 
-const DEFAULT_TEMPO = 110;
+const DEFAULT_TEMPO = window.userPrefs.tempo;
 
 const handleSetPref = (pref: string, setting: any) => {};
 
