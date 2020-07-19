@@ -47,8 +47,8 @@ class Scheduler {
             tempo: 80,
         };
 
-        window.muteDrums = this.muteDrums;
-        window.unmuteDrums = this.unmuteDrums;
+        window.muteAll = this.muteAll;
+        window.unmuteAll = this.unmuteAll;
         window.setTempo = this.setTempo.bind(this);
 
         this.setTempo(window.userPrefs.tempo);
@@ -58,8 +58,8 @@ class Scheduler {
         setTimeout(() => {
             Tone.start();
             this.transport.start();
-            // this.playDrums();
-            // this.playBass();
+            this.playDrums();
+            this.playBass();
         }, 1000);
     }
 
@@ -67,12 +67,14 @@ class Scheduler {
         this.transport.stop();
     }
 
-    muteDrums() {
+    muteAll() {
         window.userPrefs.drums = false;
+        bass.mute();
     }
 
-    unmuteDrums() {
+    unmuteAll() {
         window.userPrefs.drums = true;
+        bass.unmute();
     }
 
     setTempo(tempo: number) {

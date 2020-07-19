@@ -18,10 +18,12 @@ interface UserPrefs {
 declare global {
     interface Window {
         electedPrefs: ElectedPrefs;
+        muteAll: function;
         muteDrums: function;
         progressions: number[][];
         scales: string[];
         setTempo: function;
+        unmuteAll: function;
         unmuteDrums: function;
         userPrefs: UserPrefs;
         // @ts-ignore
