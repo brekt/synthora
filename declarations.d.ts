@@ -18,11 +18,11 @@ interface UserPrefs {
 declare global {
     interface Window {
         electedPrefs: ElectedPrefs;
-        muteDrums: function;
+        muteAll: function;
         progressions: number[][];
         scales: string[];
         setTempo: function;
-        unmuteDrums: function;
+        unmuteAll: function;
         userPrefs: UserPrefs;
         // @ts-ignore
         webkitAudioContext: typeof AudioContext;

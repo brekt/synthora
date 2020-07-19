@@ -11,6 +11,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Switch from '@material-ui/core/Switch';
 import Slider from '@material-ui/core/Slider';
 import { purple } from '@material-ui/core/colors';
+import AudiotrackIcon from '@material-ui/icons/Audiotrack';
+import MusicOffIcon from '@material-ui/icons/MusicOff';
 
 const DEFAULT_TEMPO = window.userPrefs.tempo;
 
@@ -21,14 +23,13 @@ function Divider() {
 }
 
 const menuTextStyle = {
-    marginTop: '10px',
     fontSize: '14px',
     color: 'rgba(232, 230, 227, 0.87)',
     fontWeight: 500,
     margin: '10px 20px',
 };
 
-const DrumSwitch = withStyles({
+const AudioSwitch = withStyles({
     switchBase: {
         color: purple[300],
         '&$checked': {
@@ -73,16 +74,15 @@ const TempoSlider = withStyles({
 })(Slider);
 
 export default function MusicUX() {
-    const [drumsOn, setDrums] = useState(true);
+    const [audioOn, setAudioOn] = useState(true);
 
-    const handleToggleDrums = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDrums(event.target.checked);
+    const handleToggleAudio = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setAudioOn(event.target.checked);
 
-        console.log(event.target.checked);
         if (event.target.checked === false) {
-            window.muteDrums();
+            window.muteAll();
         } else if (event.target.checked === true) {
-            window.unmuteDrums();
+            window.unmuteAll();
         }
     };
 
@@ -111,13 +111,16 @@ export default function MusicUX() {
                 flexDirection: 'row',
             }}
         >
-            <span style={menuTextStyle}>DRUMS</span>
-            <DrumSwitch
-                checked={drumsOn}
-                onChange={handleToggleDrums}
+            <span style={menuTextStyle}>AUDIO</span>
+            <AudioSwitch
+                checked={audioOn}
+                onChange={handleToggleAudio}
                 color="default"
                 inputProps={{ 'aria-label': 'checkbox with default color' }}
             />
+            <span style={{ ...menuTextStyle, margin: '5px 20px' }}>
+                {audioOn ? <AudiotrackIcon /> : <MusicOffIcon />}
+            </span>
             <Divider />
             <Button
                 aria-controls="scales-menu"

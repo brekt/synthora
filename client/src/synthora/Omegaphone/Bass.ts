@@ -14,6 +14,10 @@ class Bass {
         this.volume.mute = true;
     }
 
+    unmute() {
+        this.volume.mute = false;
+    }
+
     play(note: string | number, duration: string) {
         return new Promise((resolve) => {
             this.bass.triggerAttackRelease(note, duration);
