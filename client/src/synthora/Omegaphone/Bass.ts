@@ -1,4 +1,4 @@
-import { FMSynth, Volume, Destination } from 'tone';
+import { FMSynth, Volume, Destination, Time } from 'tone';
 
 class Bass {
     bass: FMSynth;
@@ -14,8 +14,16 @@ class Bass {
         this.volume.mute = true;
     }
 
-    playNote(note: string, duration: string) {
-        this.bass.triggerAttackRelease(note, duration);
+    play(note: string | number, duration: string) {
+        return new Promise((resolve) => {
+            this.bass.triggerAttackRelease(note, duration);
+
+            const playTimeMs = Time(duration).toSeconds() * 1000;
+
+            setTimeout(() => {
+                resolve();
+            }, playTimeMs);
+        });
     }
 }
 

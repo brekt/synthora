@@ -4,6 +4,25 @@ import { keySignatures } from './Chords';
 import { randInt } from '../../utils';
 import bass from './Bass';
 
+const key = keySignatures.C;
+const noteLengths = ['16n', '8n', '8n.', '4n', '4n.', '2n', '1m'];
+
+interface Subdivisions {
+    [name: string]: number;
+}
+
+type Bassline = string[][];
+
+const subdivisions: Subdivisions = {
+    '16n': 1,
+    '8n': 2,
+    '8n.': 3,
+    '4n': 4,
+    '4n.': 6,
+    '2n': 8,
+    '1m': 16,
+};
+
 class Scheduler {
     transport: typeof Tone.Transport;
 
@@ -25,7 +44,7 @@ class Scheduler {
         window.userPrefs = {
             drums: true,
             scale: 'major',
-            tempo: 110,
+            tempo: 80,
         };
 
         window.muteDrums = this.muteDrums;
@@ -39,8 +58,8 @@ class Scheduler {
         setTimeout(() => {
             Tone.start();
             this.transport.start();
-            this.playDrums();
-            this.playBass();
+            // this.playDrums();
+            // this.playBass();
         }, 1000);
     }
 
@@ -116,25 +135,43 @@ class Scheduler {
     }
 
     playBass() {
-        const key = keySignatures.C;
-        let hit = 0;
+        const bassline = this.makeBassLine();
 
-        this.transport.scheduleRepeat((time) => {
-            let note;
+        this.transport.scheduleRepeat(async (time) => {
+            for (let i = 0; i < bassline.length; i++) {
+                const note = bassline[i][0];
+                const duration = bassline[i][1];
 
-            if (hit === 0) {
-                note = 'C';
-            } else {
-                note = key[Math.floor(Math.random() * key.length)];
+                await bass.play(note, duration);
             }
-
-            console.log(note);
-            bass.playNote(`${note}2`, '4n');
-            hit = (hit + 1) % 4;
         }, '1m');
     }
 
-    makeBassLine() {}
+    makeBassLine(): Bassline {
+        let subdivisionSpaceLeft = 16;
+        const bassline = [['C2', getRandomBassNoteLength()]];
+
+        while (subdivisionSpaceLeft > 0) {
+            bassline.push([getRandomBassNote(), getRandomBassNoteLength()]);
+        }
+
+        function getRandomBassNote() {
+            return key[Math.floor(Math.random() * key.length)] + '2';
+        }
+
+        function getRandomBassNoteLength() {
+            const randomNoteLength = noteLengths[Math.floor(Math.random() * 6)];
+            subdivisionSpaceLeft -= subdivisions[randomNoteLength];
+
+            if (subdivisionSpaceLeft < 0) {
+                return '16n';
+            }
+
+            return randomNoteLength;
+        }
+
+        return bassline;
+    }
 
     metronome() {
         const beeper = new Tone.Oscillator().toDestination();
