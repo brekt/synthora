@@ -21,11 +21,17 @@ export default class Iotas {
     instanceColors: number[];
     material: MeshLambertMaterial;
     mesh: InstancedMesh;
+    positions: number[][];
+    velocities: number[][];
+    worldSize: number;
 
     constructor(scene: Scene, options: Options) {
         this.count = options.count;
+        this.worldSize = options.worldSize;
         this.dummy = new Object3D();
         this.geometry = new SphereBufferGeometry(5, 32, 32);
+        this.positions = [];
+        this.velocities = [];
         this.instanceColors = [];
 
         for (let i = 0; i < this.count; i++) {
@@ -89,6 +95,8 @@ export default class Iotas {
         this.getStartPositions(options.worldSize);
 
         scene.add(this.mesh);
+
+        this.animate();
     }
 
     getStartPositions(worldSize: number): void {
@@ -97,9 +105,41 @@ export default class Iotas {
             const y = rand(-worldSize, worldSize);
             const z = rand(-worldSize, worldSize);
 
+            this.positions.push([x, y, z]);
             this.dummy.position.set(x, y, z);
             this.dummy.updateMatrix();
             this.mesh.setMatrixAt(i++, this.dummy.matrix);
+        }
+    }
+
+    getVelocities() {
+        for (let i = 0; i < this.count; i++) {
+            this.velocities.push([rand(-1, 1), rand(-1, 1), rand(-1, 1)]);
+        }
+    }
+
+    constrain(num: number): number {
+        if (num > this.worldSize || num < -this.worldSize) {
+            return num * -1;
+        }
+        return num;
+    }
+
+    animate() {
+        for (let i = 0; i < this.count; i++) {
+            let x = this.positions[i][0] + this.velocities[i][0];
+            let y = this.positions[i][1] + this.velocities[i][1];
+            let z = this.positions[i][2] + this.velocities[i][2];
+
+            x = this.constrain(x);
+            y = this.constrain(y);
+            z = this.constrain(z);
+
+            this.dummy.position.set(x, y, z);
+            this.dummy.updateMatrix();
+            this.mesh.setMatrixAt(i++, this.dummy.matrix);
+
+            this.positions[i] = [x, y, z];
         }
     }
 }
