@@ -27,7 +27,7 @@ export default class Iota extends Object3D {
         this.material = new MeshLambertMaterial({
             color: '#277ec9',
             transparent: true,
-            opacity: 1.0,
+            opacity: 0.9,
         });
 
         this.mesh = new Mesh(this.geometry, this.material);

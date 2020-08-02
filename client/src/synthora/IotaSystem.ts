@@ -1,5 +1,6 @@
 import { Object3D } from 'three';
-import Iota from './Iota';
+// import Iota from './Iota';
+import Iotas from './Iotas';
 import transport from './Omegaphone/Scheduler';
 
 interface IotaSystemOptions {
@@ -9,7 +10,8 @@ interface IotaSystemOptions {
 
 export default class IotaSystem extends Object3D {
     pivot: THREE.Object3D;
-    iotas: Iota[] = [];
+    // iotas: Iota[] = [];
+    iotas: Iotas;
     count: number;
     worldSize: number;
 
@@ -18,79 +20,79 @@ export default class IotaSystem extends Object3D {
 
         this.count = options.count;
         this.worldSize = options.worldSize;
-        this.pivot = new Object3D();
 
-        for (let i = 0; i < this.count; i++) {
-            const iota = new Iota(options);
+        this.iotas = new Iotas(scene, options);
+        // this.pivot = new Object3D();
 
-            this.pivot.add(iota.mesh);
-            this.iotas.push(iota);
-        }
+        // for (let i = 0; i < this.count; i++) {
+        //     const iota = new Iota(options);
 
-        console.log(this.iotas[0]);
+        //     this.pivot.add(iota.mesh);
+        //     this.iotas.push(iota);
+        // }
 
-        scene.add(this.pivot);
+        // scene.add(this.pivot);
 
-        this.detectCollision();
+        // this.detectCollision();
 
         transport.start();
     }
 
-    animate() {
-        this.pivot.rotateY(Math.PI * 0.0001); // slowly rotate entire iota system
-        this.iotas.forEach((iota, i) => {
-            let x = iota.mesh.position.x + iota.velocity[0];
-            let y = iota.mesh.position.y + iota.velocity[1];
-            let z = iota.mesh.position.z + iota.velocity[2];
+    // animate() {
+    //     this.pivot.rotateY(Math.PI * 0.0001); // slowly rotate entire iota system
+    //     this.iotas.forEach((iota, i) => {
+    //         let x = iota.mesh.position.x + iota.velocity[0];
+    //         let y = iota.mesh.position.y + iota.velocity[1];
+    //         let z = iota.mesh.position.z + iota.velocity[2];
 
-            x = this.constrain(x);
-            y = this.constrain(y);
-            z = this.constrain(z);
+    //         x = this.constrain(x);
+    //         y = this.constrain(y);
+    //         z = this.constrain(z);
 
-            iota.mesh.position.set(x, y, z);
-        });
-    }
+    //         iota.mesh.position.set(x, y, z);
+    //     });
+    // }
 
-    handleCollision(colliders: Iota[]) {
-        // console.log(colliders.length);
-        // colliders.forEach((iota) => {
-        //   iota.material.color.setColorName("white");
-        // });
-        // keys.playChord(['D3', 'F3', 'A3'], '2n');
-    }
+    // handleCollision(colliders: Iota[]) {
+    //     // console.log(colliders.length);
+    //     // colliders.forEach((iota) => {
+    //     //   iota.material.color.setColorName("white");
+    //     // });
+    //     // keys.playChord(['D3', 'F3', 'A3'], '2n');
+    // }
 
-    constrain(num: number): number {
-        // return Math.abs(num) > this.worldSize ? (num *= -1) : num;
-        if (num > this.worldSize || num < -this.worldSize) {
-            return num * -1;
-        }
-        return num;
-    }
+    // constrain(num: number): number {
+    //     // return Math.abs(num) > this.worldSize ? (num *= -1) : num;
+    //     if (num > this.worldSize || num < -this.worldSize) {
+    //         return num * -1;
+    //     }
+    //     return num;
+    // }
 
-    detectCollision() {
-        setInterval(() => {
-            const colliders: Iota[] = [];
+    // detectCollision() {
+    //     setInterval(() => {
+    //         const colliders: Iota[] = [];
 
-            // TODO: also try memoizing so no double check if sticking with nested for loop
-            // TODO: use a bounding box or sphere to detect close iotas (thanks Cray)
+    //         // TODO: also try memoizing so no double check if sticking with nested for loop
+    //         // TODO: use a bounding box or sphere to detect close iotas (thanks Cray)
 
-            for (let i = 0; i < this.iotas.length - 1; i++) {
-                for (let j = i + 1; j < this.iotas.length; j++) {
-                    if (
-                        this.iotas[i].mesh.position.distanceTo(
-                            this.iotas[j].mesh.position
-                        ) < 20
-                    ) {
-                        if (!colliders.includes(this.iotas[i])) {
-                            colliders.push(this.iotas[i]);
-                        }
-                        if (!colliders.includes(this.iotas[j])) {
-                            colliders.push(this.iotas[j]);
-                        }
-                        this.handleCollision(colliders);
-                    }
-                }
-            }
-        }, 1000);
-    }
+    //         for (let i = 0; i < this.iotas.length - 1; i++) {
+    //             for (let j = i + 1; j < this.iotas.length; j++) {
+    //                 if (
+    //                     this.iotas[i].mesh.position.distanceTo(
+    //                         this.iotas[j].mesh.position
+    //                     ) < 20
+    //                 ) {
+    //                     if (!colliders.includes(this.iotas[i])) {
+    //                         colliders.push(this.iotas[i]);
+    //                     }
+    //                     if (!colliders.includes(this.iotas[j])) {
+    //                         colliders.push(this.iotas[j]);
+    //                     }
+    //                     this.handleCollision(colliders);
+    //                 }
+    //             }
+    //         }
+    //     }, 1000);
+    // }
 }
