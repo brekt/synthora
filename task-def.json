@@ -1,7 +1,7 @@
 {
     "family": "synthora-fargate",
-    "taskRoleArn": "arn:aws:iam::473731996653:user/Synthora",
-    "executionRoleArn": "arn:aws:iam::473731996653:user/Synthora",
+    "taskRoleArn": "arn:aws:iam::473731996653:role/ecsTaskExecutionRole",
+    "executionRoleArn": "arn:aws:iam::473731996653:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
     "containerDefinitions": [
         {
