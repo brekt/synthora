@@ -93,6 +93,7 @@ export default class Iotas {
         this.mesh.instanceMatrix.setUsage(DynamicDrawUsage); // will be updated every frame
 
         this.getStartPositions(options.worldSize);
+        this.getVelocities();
 
         scene.add(this.mesh);
 
