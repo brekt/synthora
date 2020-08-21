@@ -9,7 +9,7 @@
             "image": "httpd:2.4",
             "portMappings": [
                 {
-                    "containerPort": 80,
+                    "containerPort": 9000,
                     "hostPort": 80,
                     "protocol": "tcp"
                 }
