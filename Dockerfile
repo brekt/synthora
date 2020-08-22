@@ -6,6 +6,9 @@ COPY package*.json ./
 
 RUN npm ci --only=production
 
+RUN npm i webpack-cli
+RUN npx webpack --mode=production
+
 EXPOSE 9000
 
 COPY . .
