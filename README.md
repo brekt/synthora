@@ -1,4 +1,4 @@
-# synthora
+# Synthora
 
 ## A Musical AI World written in TypeScript, using THREE.jS and the Web Audio API.
 
