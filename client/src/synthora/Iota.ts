@@ -27,14 +27,14 @@ export default class Iota extends Object3D {
         this.material = new MeshLambertMaterial({
             color: '#277ec9',
             transparent: true,
-            opacity: 1.0,
+            opacity: 0.9,
         });
 
         this.mesh = new Mesh(this.geometry, this.material);
 
-        const glowMesh = new GlowMesh(this.mesh);
+        // const glowMesh = new GlowMesh(this.mesh);
 
-        this.mesh.add(glowMesh.object3d);
+        // this.mesh.add(glowMesh.object3d);
 
         const [x, y, z] = this.getStartPosition(worldSize);
         const color = this.getRandomColor();

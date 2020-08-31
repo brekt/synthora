@@ -32,7 +32,9 @@ class App {
         this.scene.add(this.ambientLight);
 
         this.renderer.setSize(innerWidth, innerHeight);
+        this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setClearColor(new THREE.Color('rgb(0,0,0)'));
+        this.renderer.outputEncoding = THREE.sRGBEncoding;
 
         this.render();
     }
@@ -44,12 +46,13 @@ class App {
     }
 
     private render() {
-        this.renderer.render(this.scene, this.camera);
         requestAnimationFrame(() => {
             this.render();
         });
         this.adjustCanvasSize();
-        this.iotaSystem.animate();
+        this.iotaSystem.iotas.animate();
+        this.iotaSystem.iotas.mesh.instanceMatrix.needsUpdate = true;
+        this.renderer.render(this.scene, this.camera);
     }
 }
 
