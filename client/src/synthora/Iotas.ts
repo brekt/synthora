@@ -8,6 +8,7 @@ import {
     SphereBufferGeometry,
 } from 'three';
 import { rand } from '../utils';
+import { RefreshIndicator } from 'material-ui';
 
 interface Options {
     count: number;
@@ -48,7 +49,6 @@ export default class Iotas {
             )
         );
         this.geometry.computeVertexNormals();
-        // this.geometry.scale(5, 5, 5);
 
         this.material = new MeshLambertMaterial({
             color: '#277ec9',
@@ -92,24 +92,22 @@ export default class Iotas {
         this.mesh = new InstancedMesh(this.geometry, this.material, this.count);
         this.mesh.instanceMatrix.setUsage(DynamicDrawUsage); // will be updated every frame
 
-        this.getStartPositions(options.worldSize);
+        this.getStartPositions();
         this.getVelocities();
 
         scene.add(this.mesh);
-
-        this.animate();
     }
 
-    getStartPositions(worldSize: number): void {
+    getStartPositions(): void {
         for (let i = 0; i < this.count; i++) {
-            const x = rand(-worldSize, worldSize);
-            const y = rand(-worldSize, worldSize);
-            const z = rand(-worldSize, worldSize);
+            const x = rand(-this.worldSize, this.worldSize);
+            const y = rand(-this.worldSize, this.worldSize);
+            const z = rand(-this.worldSize, this.worldSize);
 
             this.positions.push([x, y, z]);
             this.dummy.position.set(x, y, z);
             this.dummy.updateMatrix();
-            this.mesh.setMatrixAt(i++, this.dummy.matrix);
+            this.mesh.setMatrixAt(i, this.dummy.matrix);
         }
     }
 
@@ -128,6 +126,7 @@ export default class Iotas {
 
     animate() {
         for (let i = 0; i < this.count; i++) {
+            const dummy = new Object3D();
             let x = this.positions[i][0] + this.velocities[i][0];
             let y = this.positions[i][1] + this.velocities[i][1];
             let z = this.positions[i][2] + this.velocities[i][2];
@@ -136,10 +135,9 @@ export default class Iotas {
             y = this.constrain(y);
             z = this.constrain(z);
 
-            this.dummy.position.set(x, y, z);
-            this.dummy.updateMatrix();
-            this.mesh.setMatrixAt(i++, this.dummy.matrix);
-
+            dummy.position.set(x, y, z);
+            dummy.updateMatrix();
+            this.mesh.setMatrixAt(i, dummy.matrix);
             this.positions[i] = [x, y, z];
         }
     }

@@ -46,12 +46,13 @@ class App {
     }
 
     private render() {
-        this.renderer.render(this.scene, this.camera);
         requestAnimationFrame(() => {
             this.render();
         });
         this.adjustCanvasSize();
-        // this.iotaSystem.animate();
+        this.iotaSystem.iotas.animate();
+        this.iotaSystem.iotas.mesh.instanceMatrix.needsUpdate = true;
+        this.renderer.render(this.scene, this.camera);
     }
 }
 
