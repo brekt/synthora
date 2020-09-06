@@ -8,7 +8,6 @@ import {
     SphereBufferGeometry,
 } from 'three';
 import { rand } from '../utils';
-import { RefreshIndicator } from 'material-ui';
 
 interface Options {
     count: number;
