@@ -5,7 +5,7 @@ class Bass {
     volume: Volume;
 
     constructor() {
-        this.volume = new Volume(-12);
+        this.volume = new Volume(-16);
         this.bass = new FMSynth();
         this.bass.chain(this.volume, Destination);
     }
