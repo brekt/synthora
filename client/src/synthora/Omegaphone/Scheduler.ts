@@ -150,11 +150,11 @@ class Scheduler {
 
                 await bass.play(note, duration);
             }
-        }, '1m');
+        }, '4m');
     }
 
     makeBassLine(): Bassline {
-        let subdivisionSpaceLeft = 16;
+        let subdivisionSpaceLeft = 64;
         const bassline = [['C2', getRandomBassNoteLength()]];
 
         while (subdivisionSpaceLeft > 0) {
@@ -189,11 +189,11 @@ class Scheduler {
 
                 await lead.play(note, duration);
             }
-        }, '1m');
+        }, '4m');
     }
 
     makeMelody() {
-        let subdivisionSpaceLeft = 16;
+        let subdivisionSpaceLeft = 64;
         const melody = [['C5', getRandomNoteLength()]];
 
         while (subdivisionSpaceLeft > 0) {
